@@ -2,14 +2,14 @@
 namespace Lucinda\Internationalization;
 
 require_once("Settings.php");
-require_once("LocaleDetector.php");
 
 /**
  * Writes to MO translation files GETTEXT utility will read from later on. 
  * 
  * Requires: 
- * - gettext extension (if WIN, download it from http://gnuwin32.sourceforge.net/packages/gettext.htm)
- * - if UNIX, "locale" folder @ application root to be owned by web server (chown -R www-data:www-data locale/)
+ * - gettext extension
+ * - if WIN, you need to install https://sourceforge.net/projects/getgnuwin32/ then add folder that stores msgfmt.exe to PATH
+ * - if UNIX, folder that stores locales (by default "locale") in app root must be owned by web server (chown -R www-data:www-data locale/)
  */
 class Writer
 {
@@ -34,8 +34,7 @@ class Writer
      * to future PO translation file based on received settings.
      */
     private function readFile() {
-        $detector = new LocaleDetector($this->settings);
-        $this->file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$detector->getLocale().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".po";
+        $this->file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$settings->getLanguage()."_".$settings->getCountry().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".po";
         if(file_exists($this->file)) {
             $content = file_get_contents($this->file);
             

@@ -3,12 +3,11 @@ namespace Lucinda\Internationalization;
 
 require_once("Settings.php");
 require_once("LocaleException.php");
-require_once("LocaleDetector.php");
 
 /**
  * Performs operations required by GETTEXT utility in order to be able to locate then read from relevant MO translation file. 
  * 
- * Requires: gettext extension (if WIN, download it from http://gnuwin32.sourceforge.net/packages/gettext.htm)
+ * Requires: gettext extension
  */
 class Reader {
     private $settings;
@@ -25,17 +24,18 @@ class Reader {
     }
     
     /**
-     * Sets server locale based on user defined settings and operating system. If operating system is:
-     * - unix: locale is lowercase ISO language code concatenated with "_" then uppercase ISO country code (eg: en_US)
-     * - windows:  locale is lowercase ISO language code concatenated with "-" then uppercase ISO country code (eg: en-US)
+     * Sets server locale based on user defined settings and operating system.
      * 
      * @throws LocaleException If locale doesn't exist on server.
      */
     private function setLocale() {
-        $detector = new LocaleDetector($this->settings);
-        putenv("LC_ALL=".$detector->getLocale());
-        $success = setlocale(LC_ALL, $detector->getLocale());
-        if(!$success) throw new LocaleException("Locale not recognized: ".$detector->getLocale());
+        $locale = $this->settings->getLanguage()."_".$this->settings->getCountry();
+        if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+            $success = putenv("LC_ALL=".$locale);
+        } else {
+            $success = setlocale(LC_ALL, $locale);
+        }
+        if(!$success) throw new LocaleException("Locale not recognized: ".$locale);
     }
     
     /**
@@ -47,6 +47,11 @@ class Reader {
      * @throws LocaleException If translation file wasn't found on server.
      */
     private function setDomain() {
+        $file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$this->settings->getLanguage()."_".$this->settings->getCountry().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".mo";
+        if(!file_exists($file)) {
+            throw new LocaleException("Locale not found: ".$file);
+        }
+        
         bindtextdomain($this->settings->getDomain(), $this->settings->getFolder());
         textdomain($this->settings->getDomain());
         if($this->settings->getCharset()) {
