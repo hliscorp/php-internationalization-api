@@ -1,5 +1,5 @@
 <?php
-namespace Internationalization;
+namespace Lucinda\Internationalization;
 
 require_once("Settings.php");
 require_once("LocaleException.php");

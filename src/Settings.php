@@ -1,5 +1,5 @@
 <?php
-namespace Internationalization;
+namespace Lucinda\Internationalization;
 
 /**
  * Encapsulates internationalization settings required in order to write to or read from MO translation files.

@@ -1,5 +1,5 @@
 <?php
-namespace Internationalization;
+namespace Lucinda\Internationalization;
 
 /**
  * Detects locale based on user-defined settings and operating system
