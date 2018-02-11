@@ -1,0 +1,18 @@
+{
+    "name": "lucinda/internationalization",
+    "type": "library",
+    "description": "Light weight i18n API performing internationalization via gettext and PO & MO files",
+    "keywords": ["gettext","internationalization","localization"],
+    "homepage": "https://github.com/aherne/php-internationalization-api",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lucian Popescu",
+            "email": "lucian.gabriel.popescu@gmail.com",
+            "role": "Developer"
+        }
+    ],
+	"require": {
+    	"ext-gettext": "*"
+  	}
+}

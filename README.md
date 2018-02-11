@@ -1,2 +1,2 @@
-# i18n
-Internationalization &amp; Localization API on top of PHP
+# Internationalization & Localization
+Internationalization &amp; Localization API on top of PHP gettext extension.
