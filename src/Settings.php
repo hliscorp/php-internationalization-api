@@ -8,57 +8,32 @@ class Settings
 {
     private $domain = "messages";
     private $charset = "UTF-8";
-    private $language;
-    private $country;
+    private $locale;
     private $folder = "locale";
     
     /**
-     * @param string $language ISO language code of 2 characters.
-     * @param string $country ISO country code of 2 characters.
+     * @param string $locale Usually country and language ISO codes (2) concatenated by _
      */
-    public function __construct($language, $country) {
-        $this->setLanguage($language);
-        $this->setCountry($country);
+    public function __construct($locale) {
+        $this->setLocale($locale);
     }
     
     /**
-     * Sets translation language.
+     * Sets locale.
      * 
-     * @param string $language ISO language code of 2 characters.
-     * @throws LocaleException If language is improperly formatted.
+     * @param string $locale Usually country and language ISO codes (2) concatenated by _
      */
-    public function setLanguage($language) {
-        if(strlen($language)!=2) throw new LocaleException("Language must be ISO CODE (2)");
-        $this->language = strtolower($language);
+    public function setLocale($locale) {
+        $this->locale = $locale;
     }
     
     /**
-     * Gets translation language.
+     * Gets locale.
      * 
      * @return string
      */
-    public function getLanguage() {
-        return $this->language;
-    }
-    
-    /**
-     * Sets country localization.
-     *
-     * @param string $country ISO country code of 2 characters.
-     * @throws LocaleException If country is improperly formatted.
-     */
-    public function setCountry($country) {
-        if(strlen($country)!=2) throw new LocaleException("Language must be ISO CODE (2)");
-        $this->country = strtoupper($country);
-    }
-    
-    /**
-     * Gets country localization.
-     *
-     * @return string
-     */
-    public function getCountry() {
-        return $this->country;
+    public function getLocale() {
+        return $this->locale;
     }
     
     /**

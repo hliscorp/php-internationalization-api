@@ -34,7 +34,7 @@ class Writer
      * to future PO translation file based on received settings.
      */
     private function readFile() {
-        $this->file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$settings->getLanguage()."_".$settings->getCountry().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".po";
+        $this->file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$this->settings->getLocale().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".po";
         if(file_exists($this->file)) {
             $content = file_get_contents($this->file);
             

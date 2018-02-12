@@ -29,7 +29,7 @@ class Reader {
      * @throws LocaleException If locale doesn't exist on server.
      */
     private function setLocale() {
-        $locale = $this->settings->getLanguage()."_".$this->settings->getCountry();
+        $locale = $this->settings->getLocale();
         if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
             $success = putenv("LC_ALL=".$locale);
         } else {
