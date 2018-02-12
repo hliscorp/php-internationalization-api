@@ -47,7 +47,7 @@ class Reader {
      * @throws LocaleException If translation file wasn't found on server.
      */
     private function setDomain() {
-        $file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$this->settings->getLanguage()."_".$this->settings->getCountry().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".mo";
+        $file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$this->settings->getLocale().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".mo";
         if(!file_exists($file)) {
             throw new LocaleException("Locale not found: ".$file);
         }
