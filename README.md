@@ -8,5 +8,5 @@ This API is a simple wrapper over PO/MO internationalization method, aimed at su
 
 Choice of this internationalization method on behalf of others wasn't implementation simplicity (as below usage steps definitely prove it's cumbersome to install) but highest efficiency (once installed, it guarantees unrivaled translation speed and memory efficiency). After all, we are not developing applications for ourselves, but for end users who appreciate instant responses!
 
-More information here:
+More information here:<br/>
 http://www.lucinda-framework.com/internationalization
