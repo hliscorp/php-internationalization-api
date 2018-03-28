@@ -63,7 +63,7 @@ class Writer
      * @param string $value Value to be received when gettext is called by above message id. Ex: "Greetings from Planet Earth!". 
      */
     public function addTranslation($key, $value) {
-        $this->translations[$key] = $value;
+        $this->translations[$key] = str_replace(array("\"", "\n"), array("&quot;"," "), $value);
     }
     
     /**
