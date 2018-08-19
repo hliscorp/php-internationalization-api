@@ -2,15 +2,15 @@
 namespace Lucinda\Internationalization;
 
 require_once("Settings.php");
-require_once("LocaleException.php");
+require_once("TranslationInvalidException.php");
+require_once("TranslationNotFoundException.php");
 
 /**
- * Performs operations required by GETTEXT utility in order to be able to locate then read from relevant MO translation file. 
- * 
- * Requires: gettext extension
+ * Reads translations from JSON files located based on Settings info, each translation being a relationship between an identifying key 
+ * and a value that stores the translation itself
  */
 class Reader {
-    private $settings;
+    private $translations = array();
     
     /**
      * Sets up reader based on user-defined internationalization settings.
@@ -18,44 +18,34 @@ class Reader {
      * @param Settings $settings Holds user-defined internationalization settings.
      */
     public function __construct(Settings $settings) {
-        $this->settings = $settings;
-        $this->setLocale();
-        $this->setDomain();
+        $this->setTranslations($settings);
     }
     
     /**
-     * Sets server locale based on user defined settings and operating system.
+     * Reads translations from JSON files located based on Settings info, each translation being a relationship between an identifying key 
+     * and a value that stores the translation itself
      * 
-     * @throws LocaleException If locale doesn't exist on server.
+     * @param Settings $settings Object that encapsulates criteria to be used in detecting translation file.
+     * @throws TranslationNotFoundException If no translation file was found
+     * @throws TranslationInvalidException If translation file found is not convertible to JSON
      */
-    private function setLocale() {
-        $locale = $this->settings->getLocale();
-        if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
-            $success = putenv("LC_ALL=".$locale);
-        } else {
-            $success = setlocale(LC_ALL, $locale);
+    private function setTranslations(Settings $settings) {
+        $fileName = $settings->getFolder().DIRECTORY_SEPARATOR.$settings->getPreferredLocale().DIRECTORY_SEPARATOR.$settings->getDomain().".".$settings->getExtension();
+        if(!file_exists($filename)) {
+            throw new TranslationNotFoundException($fileName);        
         }
-        if(!$success) throw new LocaleException("Locale not recognized: ".$locale);
+        $this->translations = json_decode(file_get_contents($fileName), true);
+        if(json_last_error() != JSON_ERROR_NONE) {
+            throw new TranslationInvalidException(json_last_error_msg());
+        }
     }
     
     /**
-     * Sets name of file (aka DOMAIN) that stores translations for current locale (by default "messages") and translation folder (aka DIRECTORY) 
-     * in which that file is located relative to application root (by default "locale"). When gettext runs later on, translation will be located as:
-     * {DIRECTORY}/{LOCALE}/LC_MESSAGES/{DOMAIN}.mo
-     * Eg: locale/de_DE/LC_MESSAGES/messages.mo
-     *
-     * @throws LocaleException If translation file wasn't found on server.
+     * Gets translations found.
+     * 
+     * @return array[string:string] List of translations by identifying key and value that stores the translation itself.
      */
-    private function setDomain() {
-        $file = $this->settings->getFolder().DIRECTORY_SEPARATOR.$this->settings->getLocale().DIRECTORY_SEPARATOR."LC_MESSAGES".DIRECTORY_SEPARATOR.$this->settings->getDomain().".mo";
-        if(!file_exists($file)) {
-            throw new LocaleException("Locale not found: ".$file);
-        }
-        
-        bindtextdomain($this->settings->getDomain(), $this->settings->getFolder());
-        textdomain($this->settings->getDomain());
-        if($this->settings->getCharset()) {
-            bind_textdomain_codeset($this->settings->getDomain(), $this->settings->getCharset());
-        }
+    public function getTranslations() {
+        return $this->translations;
     }
 }

@@ -2,33 +2,33 @@
 namespace Lucinda\Internationalization;
 
 /**
- * Encapsulates internationalization settings required in order to write to or read from MO translation files.
+ * Encapsulates internationalization settings required in order to write to or read from translation files.
  */
 class Settings
 {
-    private $domain = "messages";
-    private $charset = "UTF-8";
     private $locale;
+    private $domain = "messages";
     private $folder = "locale";
+    private $extension = "json";
     
     /**
-     * @param string $locale Usually country and language ISO codes (2) concatenated by _
+     * @param string $Locale Country and language ISO codes (2) concatenated by _
      */
-    public function __construct($locale) {
+    public function __construct($Locale) {
         $this->setLocale($locale);
     }
     
     /**
-     * Sets locale.
+     * Sets locale to be used when translating
      * 
-     * @param string $locale Usually country and language ISO codes (2) concatenated by _
+     * @param string $locale Country and language ISO codes (2) concatenated by _
      */
     public function setLocale($locale) {
         $this->locale = $locale;
     }
     
     /**
-     * Gets locale.
+     * Gets locale to be used when translating
      * 
      * @return string
      */
@@ -37,25 +37,7 @@ class Settings
     }
     
     /**
-     * Sets translation charset.
-     * 
-     * @param string $charset
-     */
-    public function setCharset($charset) {
-        $this->charset = $charset;
-    }
-    
-    /**
-     * Gets translation charset (by default: UTF-8).
-     * 
-     * @return string
-     */
-    public function getCharset() {
-        return $this->charset;
-    }
-    
-    /**
-     * Sets name (aka "domain") of MO translation file.
+     * Sets name (aka "domain") of translation file.
      * 
      * @param string $domain
      */
@@ -64,7 +46,7 @@ class Settings
     }
     
     /**
-     * Gets name  of MO translation file (by default: messages)
+     * Gets name  of translation file (by default: messages)
      * 
      * @return string
      */
@@ -88,6 +70,24 @@ class Settings
      */
     public function getFolder() {
         return $this->folder;
+    }
+    
+    /**
+     * Sets extension of translation file (aka "domain").
+     * 
+     * @param string $extension
+     */
+    public function setExtension($extension) {
+        $this->extension = $extension;
+    }
+    
+    /**
+     * Gets extension of translation file (aka "domain")
+     * 
+     * @return string
+     */
+    public function getExtension() {
+        return $this->extension;
     }
 }
 
