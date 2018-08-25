@@ -2,6 +2,6 @@
 namespace Lucinda\Internationalization;
 
 /**
- * Exception thrown when translation file could not be located for given locale.
+ * Exception thrown when translation file doesn't contain a value for user-inputted key.
  */
 class TranslationNotFoundException extends \Exception {}

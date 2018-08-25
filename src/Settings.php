@@ -6,34 +6,55 @@ namespace Lucinda\Internationalization;
  */
 class Settings
 {
-    private $locale;
+    private $preferredLocale;
+    private $defaultLocale;
     private $domain = "messages";
     private $folder = "locale";
     private $extension = "json";
     
     /**
-     * @param string $Locale Country and language ISO codes (2) concatenated by _
+     * @param string $preferredLocale Country and language ISO codes (2) concatenated by _
+     * @param string $defaultLocale Country and language ISO codes (2) concatenated by _
      */
-    public function __construct($Locale) {
-        $this->setLocale($locale);
+    public function __construct($preferredLocale, $defaultLocale) {
+        $this->setPreferredLocale($preferredLocale);
+        $this->setDefaultLocale($defaultLocale);
     }
     
     /**
-     * Sets locale to be used when translating
+     * Sets preferred locale to be used when translating
      * 
      * @param string $locale Country and language ISO codes (2) concatenated by _
      */
-    public function setLocale($locale) {
-        $this->locale = $locale;
+    public function setPreferredLocale($locale) {
+        $this->preferredLocale = $locale;
     }
     
     /**
-     * Gets locale to be used when translating
+     * Gets preferred locale to be used when translating
      * 
      * @return string
      */
-    public function getLocale() {
-        return $this->locale;
+    public function getPreferredLocale() {
+        return $this->preferredLocale;
+    }
+    
+    /**
+     * Sets default locale to be used when translating
+     *
+     * @param string $locale Country and language ISO codes (2) concatenated by _
+     */
+    public function setDefaultLocale($locale) {
+        $this->defaultLocale = $locale;
+    }
+    
+    /**
+     * Gets default locale to be used when translating
+     *
+     * @return string
+     */
+    public function getDefaultLocale() {
+        return $this->defaultLocale;
     }
     
     /**
