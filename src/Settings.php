@@ -13,6 +13,8 @@ class Settings
     private $extension = "json";
     
     /**
+     * Saves prefferred and default locales.
+     * 
      * @param string $preferredLocale Country and language ISO codes (2) concatenated by _
      * @param string $defaultLocale Country and language ISO codes (2) concatenated by _
      */

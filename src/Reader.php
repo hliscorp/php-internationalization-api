@@ -3,7 +3,6 @@ namespace Lucinda\Internationalization;
 
 require_once("Settings.php");
 require_once("TranslationInvalidException.php");
-require_once("TranslationNotFoundException.php");
 require_once("DomainNotFoundException.php");
 
 /**
