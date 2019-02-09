@@ -27,7 +27,7 @@ class Reader {
     /**
      * Gets a pointer to statically setup instance.
      * 
-     * @return \Lucinda\Internationalization\Reader
+     * @return Reader
      */
     public static function getInstance() {
         if(!self::$instance) {
