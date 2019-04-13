@@ -11,8 +11,5 @@
             "email": "lucian.gabriel.popescu@gmail.com",
             "role": "Developer"
         }
-    ],
-	"require": {
-    	"ext-gettext": "*"
-  	}
+    ]
 }
