@@ -1,9 +1,9 @@
 <?php
 namespace Lucinda\Internationalization;
 
-require_once("Settings.php");
-require_once("TranslationInvalidException.php");
-require_once("DomainNotFoundException.php");
+require("Settings.php");
+require("TranslationInvalidException.php");
+require("DomainNotFoundException.php");
 
 /**
  * Reads translations from JSON files located based on Settings info, each translation being a relationship between an identifying key

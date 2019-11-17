@@ -2,7 +2,6 @@
 namespace Lucinda\Internationalization;
 
 require_once("Settings.php");
-require_once("Reader.php");
 
 /**
  * Writes translations to JSON files located based on Settings info, each translation being a relationship between an identifying key
