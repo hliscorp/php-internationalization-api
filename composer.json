@@ -5,6 +5,14 @@
     "keywords": ["i18n","internationalization","localization"],
     "homepage": "http://www.lucinda-framework.com/internationalization",
     "license": "MIT",
+    "require": {
+        "php": "^7.1"
+    },
+    "autoload": {
+    	"psr-4": {
+        	"Lucinda\\Internationalization\\": "src/"
+    	}
+    },
     "authors": [
         {
             "name": "Lucian Popescu",

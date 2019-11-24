@@ -18,7 +18,7 @@ class Settings
      * @param string $preferredLocale Country and language ISO codes (2) concatenated by _
      * @param string $defaultLocale Country and language ISO codes (2) concatenated by _
      */
-    public function __construct($preferredLocale, $defaultLocale)
+    public function __construct(string $preferredLocale, string $defaultLocale): void
     {
         $this->setPreferredLocale($preferredLocale);
         $this->setDefaultLocale($defaultLocale);
@@ -29,7 +29,7 @@ class Settings
      *
      * @param string $locale Country and language ISO codes (2) concatenated by _
      */
-    public function setPreferredLocale($locale)
+    public function setPreferredLocale(string $locale): void
     {
         $this->preferredLocale = $locale;
     }
@@ -39,7 +39,7 @@ class Settings
      *
      * @return string
      */
-    public function getPreferredLocale()
+    public function getPreferredLocale(): string
     {
         return $this->preferredLocale;
     }
@@ -49,7 +49,7 @@ class Settings
      *
      * @param string $locale Country and language ISO codes (2) concatenated by _
      */
-    public function setDefaultLocale($locale)
+    public function setDefaultLocale(string $locale): void
     {
         $this->defaultLocale = $locale;
     }
@@ -59,7 +59,7 @@ class Settings
      *
      * @return string
      */
-    public function getDefaultLocale()
+    public function getDefaultLocale(): string
     {
         return $this->defaultLocale;
     }
@@ -69,7 +69,7 @@ class Settings
      *
      * @param string $domain
      */
-    public function setDomain($domain)
+    public function setDomain(string $domain): void
     {
         $this->domain = $domain;
     }
@@ -79,7 +79,7 @@ class Settings
      *
      * @return string
      */
-    public function getDomain()
+    public function getDomain(): string
     {
         return $this->domain;
     }
@@ -89,7 +89,7 @@ class Settings
      *
      * @param string $folder
      */
-    public function setFolder($folder)
+    public function setFolder(string $folder): void
     {
         $this->folder = $folder;
     }
@@ -99,7 +99,7 @@ class Settings
      *
      * @return string
      */
-    public function getFolder()
+    public function getFolder(): string
     {
         return $this->folder;
     }
@@ -109,7 +109,7 @@ class Settings
      *
      * @param string $extension
      */
-    public function setExtension($extension)
+    public function setExtension(string $extension): void
     {
         $this->extension = $extension;
     }
@@ -119,7 +119,7 @@ class Settings
      *
      * @return string
      */
-    public function getExtension()
+    public function getExtension(): string
     {
         return $this->extension;
     }

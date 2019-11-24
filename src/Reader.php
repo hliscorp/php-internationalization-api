@@ -1,10 +1,6 @@
 <?php
 namespace Lucinda\Internationalization;
 
-require("Settings.php");
-require("TranslationInvalidException.php");
-require("DomainNotFoundException.php");
-
 /**
  * Reads translations from JSON files located based on Settings info, each translation being a relationship between an identifying key
  * and a value that stores the translation itself
@@ -21,7 +17,7 @@ class Reader
      *
      * @param Settings $settings Holds user-defined internationalization settings.
      */
-    public static function setSettings(Settings $settings)
+    public static function setSettings(Settings $settings): void
     {
         self::$settings = $settings;
     }
@@ -31,7 +27,7 @@ class Reader
      *
      * @return Reader
      */
-    public static function getInstance()
+    public static function getInstance(): Reader
     {
         if (!self::$instance) {
             self::$instance = new Reader();
@@ -46,7 +42,7 @@ class Reader
      * @throws DomainNotFoundException If no translation file was found
      * @throws TranslationInvalidException If translation file found is not convertible to JSON
      */
-    private function setTranslations($domain = null)
+    private function setTranslations(string $domain = null): void
     {
         $fileName = self::$settings->getFolder().DIRECTORY_SEPARATOR.self::$settings->getPreferredLocale().DIRECTORY_SEPARATOR.$domain.".".self::$settings->getExtension();
         if (!file_exists($fileName)) {
@@ -71,7 +67,7 @@ class Reader
      * @throws TranslationInvalidException If translation file found is not convertible to JSON
      * @return string
      */
-    public function getTranslation($key, $domain=null)
+    public function getTranslation(string $key, string $domain=null): string
     {
         if (!$domain) {
             $domain = self::$settings->getDomain();
