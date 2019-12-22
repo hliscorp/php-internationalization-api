@@ -14,7 +14,7 @@ class Writer
      *
      * @param Settings $settings
      */
-    public function __construct(Settings $settings): void
+    public function __construct(Settings $settings)
     {
         $this->readFile($settings);
     }

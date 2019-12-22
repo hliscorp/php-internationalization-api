@@ -18,7 +18,7 @@ class Settings
      * @param string $preferredLocale Country and language ISO codes (2) concatenated by _
      * @param string $defaultLocale Country and language ISO codes (2) concatenated by _
      */
-    public function __construct(string $preferredLocale, string $defaultLocale): void
+    public function __construct(string $preferredLocale, string $defaultLocale)
     {
         $this->setPreferredLocale($preferredLocale);
         $this->setDefaultLocale($defaultLocale);
