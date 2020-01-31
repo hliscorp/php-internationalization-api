@@ -7,8 +7,7 @@ namespace Lucinda\Internationalization;
  */
 class Reader
 {
-    private static $settings;
-    private static $instance;
+    private $settings;
     
     private $translations = array();
     
@@ -17,22 +16,9 @@ class Reader
      *
      * @param Settings $settings Holds user-defined internationalization settings.
      */
-    public static function setSettings(Settings $settings): void
+    public function __construct(Settings $settings): void
     {
-        self::$settings = $settings;
-    }
-    
-    /**
-     * Gets a pointer to statically setup instance.
-     *
-     * @return Reader
-     */
-    public static function getInstance(): Reader
-    {
-        if (!self::$instance) {
-            self::$instance = new Reader();
-        }
-        return self::$instance;
+        $this->settings = $settings;
     }
     
     /**
@@ -44,9 +30,9 @@ class Reader
      */
     private function setTranslations(string $domain = null): void
     {
-        $fileName = self::$settings->getFolder().DIRECTORY_SEPARATOR.self::$settings->getPreferredLocale().DIRECTORY_SEPARATOR.$domain.".".self::$settings->getExtension();
+        $fileName = $this->settings->getFolder().DIRECTORY_SEPARATOR.$this->settings->getPreferredLocale().DIRECTORY_SEPARATOR.$domain.".".$this->settings->getExtension();
         if (!file_exists($fileName)) {
-            $fileName = self::$settings->getFolder().DIRECTORY_SEPARATOR.self::$settings->getDefaultLocale().DIRECTORY_SEPARATOR.$domain.".".self::$settings->getExtension();
+            $fileName = $this->settings->getFolder().DIRECTORY_SEPARATOR.$this->settings->getDefaultLocale().DIRECTORY_SEPARATOR.$domain.".".$this->settings->getExtension();
             if (!file_exists($fileName)) {
                 throw new DomainNotFoundException($domain);
             }
@@ -70,7 +56,7 @@ class Reader
     public function getTranslation(string $key, string $domain=null): string
     {
         if (!$domain) {
-            $domain = self::$settings->getDomain();
+            $domain = $this->settings->getDomain();
         }
         if (!isset($this->translations[$domain])) {
             $this->setTranslations($domain);

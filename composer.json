@@ -6,7 +6,8 @@
     "homepage": "http://www.lucinda-framework.com/internationalization",
     "license": "MIT",
     "require": {
-        "php": "^7.1"
+        "php": "^7.1",
+        "ext-SimpleXML": "*"
     },
     "autoload": {
     	"psr-4": {
