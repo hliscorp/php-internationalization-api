@@ -49,10 +49,12 @@ Structure of that file is a dictionary where key is a short keyword that identif
 
 Examples:
 
-- locale/en_US/greetings.json: ```json
+- locale/en_US/greetings.json: 
+```json
 {"hello":"Hello!", "welcome":"Welcome to my site, %0!"}
 ```
-- locale/ro_RO/greetings.json: ```json
+- locale/ro_RO/greetings.json: 
+```json
 {"hello":"Salut!", "welcome":"Bun venit pe situl meu, %0!"}
 ```
 
