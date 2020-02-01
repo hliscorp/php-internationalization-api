@@ -29,7 +29,7 @@ class Wrapper
         $settings = new Settings($xml);
         $localeDetector = new LocaleDetector($requestParameters, $requestHeaders, $settings->getLocalizationMethod());
         $preferredLocale = $localeDetector->getDetectedLocale();
-        $settings->setPreferredLocale($preferredLocale!==NULL?$preferredLocale:$settings->getDefaultLocale());
+        $settings->setPreferredLocale($preferredLocale!==null?$preferredLocale:$settings->getDefaultLocale());
         
         // compiles settings
         if (!file_exists($settings->getFolder().DIRECTORY_SEPARATOR.$settings->getPreferredLocale())) {
@@ -45,13 +45,13 @@ class Wrapper
             $_SESSION[LocaleDetector::PARAMETER_NAME] = $settings->getPreferredLocale();
         }
         
-        // saves settings to be used by Writer 
+        // saves settings to be used by Writer
         $this->settings = $settings;
     }
     
     /**
      * Gets translations reader instance
-     * 
+     *
      * @return Reader
      */
     public function getReader(): Reader

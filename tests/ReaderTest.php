@@ -1,13 +1,12 @@
 <?php
 namespace Test\Lucinda\Internationalization;
-    
+
 use Lucinda\Internationalization\Settings;
 use Lucinda\Internationalization\Reader;
 use Lucinda\UnitTest\Result;
 
 class ReaderTest
 {
-
     public function getTranslation()
     {
         $results = [];
@@ -25,6 +24,4 @@ class ReaderTest
         
         return $results;
     }
-        
-
 }

@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\Internationalization;
-    
+
 use Lucinda\Internationalization\Wrapper;
 use Lucinda\UnitTest\Result;
 
@@ -30,6 +30,4 @@ class WrapperTest
         $writer->save();
         return new Result($this->object->getReader()->getTranslation("test")=="me");
     }
-        
-
 }

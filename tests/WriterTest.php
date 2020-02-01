@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\Internationalization;
-    
+
 use Lucinda\Internationalization\Writer;
 use Lucinda\Internationalization\Settings;
 use Lucinda\UnitTest\Result;
@@ -42,6 +42,4 @@ class WriterTest
     {
         return $this->setTranslation();
     }
-        
-
 }

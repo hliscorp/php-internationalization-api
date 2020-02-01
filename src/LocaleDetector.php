@@ -62,7 +62,7 @@ class LocaleDetector
     
     /**
      * Gets detected locale
-     * 
+     *
      * @return string|NULL
      */
     public function getDetectedLocale(): ?string

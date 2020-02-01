@@ -1,6 +1,6 @@
 <?php
 namespace Test\Lucinda\Internationalization;
-    
+
 use Lucinda\Internationalization\Settings;
 use Lucinda\UnitTest\Result;
 
@@ -56,6 +56,4 @@ class SettingsTest
     {
         return new Result($this->object->getPreferredLocale()=="fr_FR");
     }
-        
-
 }

@@ -1,12 +1,11 @@
 <?php
 namespace Test\Lucinda\Internationalization;
-    
+
 use Lucinda\Internationalization\LocaleDetector;
 use Lucinda\UnitTest\Result;
 
 class LocaleDetectorTest
 {
-
     public function getDetectedLocale()
     {
         $results = [];
@@ -25,6 +24,4 @@ class LocaleDetectorTest
         
         return $results;
     }
-        
-
 }
