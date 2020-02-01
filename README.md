@@ -30,9 +30,9 @@ API is fully PSR-4 compliant, only requiring PHP7.1+ interpreter and SimpleXML e
 
 A locale is understood by this API as a combination of a double digit lowercase ISO language code and a double digit uppercase ISO country code (eg: *en_US*) joined by underscore. API is able to detect user locale based on following mechanisms:
 
-- by value of *Accept-Language* request header (eg: $_SERVER["HTTP_ACCEPT_LANGUAGE"]= "fr-FR, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5");
-- by value of "locale" querystring parameter (eg: $_GET["locale"] = "fr_FR");
-- by value of "locale" session parameter (eg: $_SESSION["locale"] = "fr_FR");
+- by value of **Accept-Language** request header (eg: $_SERVER["HTTP_ACCEPT_LANGUAGE"]= "fr-FR, fr;q=0.9, en;q=0.8, de;q=0.7, *;q=0.5");
+- by value of **locale** querystring parameter (eg: $_GET["locale"] = "fr_FR");
+- by value of **locale** session parameter (eg: $_SESSION["locale"] = "fr_FR");
 
 If locale could not be detected, the default (specific to your application) will be used instead. 
 
