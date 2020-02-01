@@ -16,7 +16,7 @@ class Reader
      *
      * @param Settings $settings Holds user-defined internationalization settings.
      */
-    public function __construct(Settings $settings): void
+    public function __construct(Settings $settings)
     {
         $this->settings = $settings;
     }

@@ -45,10 +45,6 @@ class Wrapper
             $_SESSION[LocaleDetector::PARAMETER_NAME] = $settings->getPreferredLocale();
         }
         
-        // injects settings into reader for later translations
-        $this->reader = new Reader($settings);
-        $this->writer = new Writer($settings);
-        
         // saves settings to be used by Writer 
         $this->settings = $settings;
     }
@@ -60,7 +56,7 @@ class Wrapper
      */
     public function getReader(): Reader
     {
-        return $this->reader;
+        return new Reader($this->settings);
     }
     
     /**
@@ -70,6 +66,6 @@ class Wrapper
      */
     public function getWriter(): Writer
     {
-        return $this->writer;
+        return new Writer($this->settings);
     }
 }

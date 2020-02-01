@@ -34,10 +34,11 @@ class LocaleDetector
         switch ($detectionMethod) {
             case "header":
                 if (isset($requestHeaders["Accept-Language"])) {
-                    $header = $requestHeaders["Accept-Language"];
-                    $locale = substr($header, 0, strpos($header, ","));
-                    $slashPosition = strpos($locale, "-");
-                    $this->detectedLocale = strtolower(substr($locale, 0, $slashPosition))."_".strtoupper(substr($locale, $slashPosition+1));
+                    $matches = [];
+                    preg_match_all("/(([a-z]{2})\-([A-Z]{2}))/", $requestHeaders["Accept-Language"], $matches);
+                    if (!empty($matches[1])) {
+                        $this->detectedLocale = $matches[2][0]."_".$matches[3][0];
+                    }
                 }
                 break;
             case "request":
