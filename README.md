@@ -13,7 +13,11 @@ Table of contents:
 
 ## About 
 
-This API is a very light weight platform that allows presentation logic (views) to be automatically translated based on user locale (see [how are locales detected](#how-are-locales-detected)). In order to achieve this, it expects textual parts of your views to be broken up into fine-grained units (ideally without HTML), each identified by a unique keyword and stored in a topic + locale specific dictionary file (see [how are translations stored](#how-are-translations-stored)). This way your HTML view becomes a web of units expected to be translated on compilation, as in example below:
+This API is a very light weight platform that allows presentation logic (views) to be automatically translated based on user locale (see [how are locales detected](#how-are-locales-detected)). In order to achieve this, it expects textual parts of your views to be broken up into fine-grained units (ideally without HTML), each identified by a unique keyword and stored in a topic + locale specific dictionary file (see [how are translations stored](#how-are-translations-stored)). 
+
+![diagram](https://www.lucinda-framework.com/internationalization-api.svg)
+
+This way your HTML view becomes a web of units expected to be translated on compilation, as in example below:
 
 ```html
 <html>
@@ -23,8 +27,6 @@ This API is a very light weight platform that allows presentation logic (views) 
 	</body>
 </html>
 ```
-
-![diagram](https://www.lucinda-framework.com/internationalization-api.svg)
 
 Since the logic of view rendering/compilation is a MVC API's concern, instead of performing keyword replacement with translations based on detected locale in response to be rendered, API provides developers a platform able to automatically detect user locale as well as setting/getting translations based on following steps:
 
