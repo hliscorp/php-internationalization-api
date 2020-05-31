@@ -6,22 +6,149 @@ namespace Lucinda\Internationalization;
  */
 class Settings
 {
-    private $preferredLocale;
-    private $defaultLocale;
     private $domain = "messages";
     private $folder = "locale";
     private $extension = "json";
     
+    private $preferredLocale;
+    private $defaultLocale;
+    private $detectionMethod;
+    
     /**
-     * Saves prefferred and default locales.
+     * Saves preferred and default locales.
      *
-     * @param string $preferredLocale Country and language ISO codes (2) concatenated by _
-     * @param string $defaultLocale Country and language ISO codes (2) concatenated by _
+     * @param \SimpleXMLElement $xml
      */
-    public function __construct($preferredLocale, $defaultLocale)
+    public function __construct(\SimpleXMLElement $xml)
     {
-        $this->setPreferredLocale($preferredLocale);
-        $this->setDefaultLocale($defaultLocale);
+        $this->setLocalizationMethod($xml);
+        $this->setDefaultLocale($xml);
+        $this->setDomain($xml);
+        $this->setFolder($xml);
+        $this->setExtension($xml);
+    }
+    
+    /**
+     * Sets localization method based on "method" attribute of <internationalization> tag.
+     *
+     * @param \SimpleXMLElement $xml Internationalization tag content.
+     * @throws ConfigurationException If XML is improperly configured.
+     */
+    private function setLocalizationMethod(\SimpleXMLElement $xml): void
+    {
+        $detectionMethod = (string) $xml["method"];
+        if (!$detectionMethod) {
+            throw new ConfigurationException("Attribute 'method' is mandatory for 'internationalization' tag");
+        }
+        $detectionMethod = strtolower($detectionMethod);
+        if (!in_array($detectionMethod, array("header","request","session"))) {
+            throw new ConfigurationException("Invalid detection method: ".$detectionMethod);
+        }
+        $this->detectionMethod = $detectionMethod;
+    }
+    
+    /**
+     * Gets localization method
+     *
+     * @return string Can be: header, request, session
+     */
+    public function getLocalizationMethod(): string
+    {
+        return $this->detectionMethod;
+    }
+    
+    /**
+     * Sets default locale based on "locale" attribute of <internationalization> tag.
+     *
+     * @param \SimpleXMLElement $xml Internationalization tag content.
+     * @throws ConfigurationException If XML is improperly configured.
+     */
+    private function setDefaultLocale(\SimpleXMLElement $xml): void
+    {
+        $defaultLocale =  (string) $xml["locale"];
+        if (!$defaultLocale) {
+            throw new ConfigurationException("Attribute 'locale' is mandatory for 'internationalization' tag");
+        }
+        $this->defaultLocale = $defaultLocale;
+    }
+    
+    /**
+     * Gets default locale to be used when translating
+     *
+     * @return string
+     */
+    public function getDefaultLocale(): string
+    {
+        return $this->defaultLocale;
+    }
+    
+    /**
+     * Sets domain based on "domain" attribute of <internationalization> tag.
+     *
+     * @param \SimpleXMLElement $xml
+     */
+    private function setDomain(\SimpleXMLElement $xml): void
+    {
+        $domain = (string) $xml["domain"];
+        if ($domain) {
+            $this->domain = $domain;
+        }
+    }
+    
+    /**
+     * Gets name  of translation file (by default: messages)
+     *
+     * @return string
+     */
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+    
+    /**
+     * Sets folder in which translations are located based on "folder" attribute of <internationalization> tag.
+     *
+     * @param \SimpleXMLElement $xml
+     */
+    private function setFolder(\SimpleXMLElement $xml): void
+    {
+        $folder = (string) $xml["folder"];
+        if ($folder) {
+            $this->folder = $folder;
+        }
+    }
+    
+    /**
+     * Gets folder in which translations are located (by default: locale)
+     *
+     * @return string
+     */
+    public function getFolder(): string
+    {
+        return $this->folder;
+    }
+    
+    /**
+     * Sets extension of translation files based on "extension" attribute of <internationalization> tag.
+     *
+     * @param \SimpleXMLElement $xml
+     */
+    private function setExtension(\SimpleXMLElement $xml): void
+    {
+        $extension = (string) $xml["extension"];
+        if ($extension) {
+            $this->extension = $extension;
+        }
+    }
+    
+    /**
+     * Gets extension of translation file (aka "domain")
+     *
+     * @return string
+     */
+    public function getExtension(): string
+    {
+        return $this->extension;
     }
     
     /**
@@ -29,7 +156,7 @@ class Settings
      *
      * @param string $locale Country and language ISO codes (2) concatenated by _
      */
-    public function setPreferredLocale($locale)
+    public function setPreferredLocale(string $locale): void
     {
         $this->preferredLocale = $locale;
     }
@@ -39,88 +166,8 @@ class Settings
      *
      * @return string
      */
-    public function getPreferredLocale()
+    public function getPreferredLocale(): string
     {
         return $this->preferredLocale;
-    }
-    
-    /**
-     * Sets default locale to be used when translating
-     *
-     * @param string $locale Country and language ISO codes (2) concatenated by _
-     */
-    public function setDefaultLocale($locale)
-    {
-        $this->defaultLocale = $locale;
-    }
-    
-    /**
-     * Gets default locale to be used when translating
-     *
-     * @return string
-     */
-    public function getDefaultLocale()
-    {
-        return $this->defaultLocale;
-    }
-    
-    /**
-     * Sets name (aka "domain") of translation file.
-     *
-     * @param string $domain
-     */
-    public function setDomain($domain)
-    {
-        $this->domain = $domain;
-    }
-    
-    /**
-     * Gets name  of translation file (by default: messages)
-     *
-     * @return string
-     */
-    public function getDomain()
-    {
-        return $this->domain;
-    }
-    
-    /**
-     * Sets folder in which translations are located
-     *
-     * @param string $folder
-     */
-    public function setFolder($folder)
-    {
-        $this->folder = $folder;
-    }
-    
-    /**
-     * Gets folder in which translations are located (by default: locale)
-     *
-     * @return string
-     */
-    public function getFolder()
-    {
-        return $this->folder;
-    }
-    
-    /**
-     * Sets extension of translation file (aka "domain").
-     *
-     * @param string $extension
-     */
-    public function setExtension($extension)
-    {
-        $this->extension = $extension;
-    }
-    
-    /**
-     * Gets extension of translation file (aka "domain")
-     *
-     * @return string
-     */
-    public function getExtension()
-    {
-        return $this->extension;
     }
 }

@@ -1,8 +1,6 @@
 <?php
 namespace Lucinda\Internationalization;
 
-require_once("Settings.php");
-
 /**
  * Writes translations to JSON files located based on Settings info, each translation being a relationship between an identifying key
  * and a value that stores the translation itself
@@ -26,7 +24,7 @@ class Writer
      *
      * @param Settings $settings
      */
-    private function readFile(Settings $settings)
+    private function readFile(Settings $settings): void
     {
         $this->file = $settings->getFolder().DIRECTORY_SEPARATOR.$settings->getPreferredLocale().DIRECTORY_SEPARATOR.$settings->getDomain().".".$settings->getExtension();
         
@@ -50,7 +48,7 @@ class Writer
      * @param string $key Locale unspecific unique identifier of translated text.
      * @param string $value Body of translation itself.
      */
-    public function setTranslation($key, $value)
+    public function setTranslation(string $key, string $value): void
     {
         $this->translations[$key] = $value;
     }
@@ -60,7 +58,7 @@ class Writer
      *
      * @param string $key Locale unspecific unique identifier of translated text.
      */
-    public function unsetTranslation($key)
+    public function unsetTranslation(string $key): void
     {
         unset($this->translations[$key]);
     }
@@ -68,7 +66,7 @@ class Writer
     /**
      * Persists changes to translation file.
      */
-    public function save()
+    public function save(): void
     {
         file_put_contents($this->file, json_encode($this->translations));
     }
