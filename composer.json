@@ -1,9 +1,9 @@
 {
     "name": "lucinda/internationalization",
     "type": "library",
-    "description": "Light weight i18n API performing internationalization via JSON files",
+    "description": "High-performance API performing internationalization and localization for PHP applications via JSON files",
     "keywords": ["i18n","internationalization","localization"],
-    "homepage": "http://www.lucinda-framework.com/internationalization",
+    "homepage": "https://github.com/aherne/php-internationalization-api",
     "license": "MIT",
     "require": {
         "php": "^7.1",
