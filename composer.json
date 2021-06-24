@@ -14,7 +14,8 @@
     },
     "autoload": {
     	"psr-4": {
-        	"Lucinda\\Internationalization\\": "src/"
+        	"Lucinda\\Internationalization\\": "src/",
+                "Test\\Lucinda\\Internationalization\\": "tests/"
     	}
     },
     "authors": [
