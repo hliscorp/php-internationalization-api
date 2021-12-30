@@ -6,8 +6,7 @@ namespace Lucinda\Internationalization;
  */
 class Wrapper
 {
-    private $reader;
-    private $writer;
+    private Settings $settings;
     
     /**
      * Sets up Reader instance to use later on in automatic translation based on XML and client headers
@@ -41,7 +40,7 @@ class Wrapper
         }
         
         // saves locale in session
-        if ($settings->getLocalizationMethod() == "session") {
+        if ($settings->getLocalizationMethod() == LocaleDetectionMethod::SESSION) {
             $_SESSION[LocaleDetector::PARAMETER_NAME] = $settings->getPreferredLocale();
         }
         

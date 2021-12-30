@@ -7,22 +7,25 @@ namespace Lucinda\Internationalization;
  */
 class Writer
 {
-    private $translations = array();
-    
+    private array $translations = array();
+    private string $file;
+
     /**
      * Sets up writer based on user-defined internationalization settings.
      *
      * @param Settings $settings
+     * @throws TranslationInvalidException
      */
     public function __construct(Settings $settings)
     {
         $this->readFile($settings);
     }
-    
+
     /**
      * Gets existing translations from JSON file located based on Settings info. Creates folder that will store translations, if former doesn't exist.
      *
      * @param Settings $settings
+     * @throws TranslationInvalidException
      */
     private function readFile(Settings $settings): void
     {

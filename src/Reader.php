@@ -7,9 +7,8 @@ namespace Lucinda\Internationalization;
  */
 class Reader
 {
-    private $settings;
-    
-    private $translations = array();
+    private Settings $settings;
+    private array $translations = array();
     
     /**
      * Injects client-specific internationalization settings to use in finding translations later on.
@@ -24,7 +23,7 @@ class Reader
     /**
      * Reads all translations from domain file.
      *
-     * @param string $domain Translation type (eg: house) reflecting into a file on disk.
+     * @param string|null $domain Translation type (eg: house) reflecting into a file on disk.
      * @throws DomainNotFoundException If no translation file was found
      * @throws TranslationInvalidException If translation file found is not convertible to JSON
      */
@@ -48,7 +47,7 @@ class Reader
      * Gets a single translation from domain file.
      *
      * @param string $key Keyword by which translated value is accessible.
-     * @param string $domain Translation type (eg: house) reflecting into a file on disk. If not supplied, default domain is used.
+     * @param string|null $domain Translation type (eg: house) reflecting into a file on disk. If not supplied, default domain is used.
      * @throws DomainNotFoundException If no translation file was found
      * @throws TranslationInvalidException If translation file found is not convertible to JSON
      * @return string
@@ -61,6 +60,6 @@ class Reader
         if (!isset($this->translations[$domain])) {
             $this->setTranslations($domain);
         }
-        return (isset($this->translations[$domain][$key])?$this->translations[$domain][$key]:$key);
+        return ($this->translations[$domain][$key] ?? $key);
     }
 }

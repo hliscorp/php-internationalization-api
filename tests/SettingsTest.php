@@ -1,6 +1,7 @@
 <?php
 namespace Test\Lucinda\Internationalization;
 
+use Lucinda\Internationalization\LocaleDetectionMethod;
 use Lucinda\Internationalization\Settings;
 use Lucinda\UnitTest\Result;
 
@@ -17,7 +18,7 @@ class SettingsTest
 
     public function getLocalizationMethod()
     {
-        return new Result($this->object->getLocalizationMethod()=="header");
+        return new Result($this->object->getLocalizationMethod()==LocaleDetectionMethod::HEADER);
     }
         
 

@@ -6,18 +6,19 @@ namespace Lucinda\Internationalization;
  */
 class Settings
 {
-    private $domain = "messages";
-    private $folder = "locale";
-    private $extension = "json";
+    private string $domain = "messages";
+    private string $folder = "locale";
+    private string $extension = "json";
     
-    private $preferredLocale;
-    private $defaultLocale;
-    private $detectionMethod;
-    
+    private string $preferredLocale;
+    private string $defaultLocale;
+    private LocaleDetectionMethod $detectionMethod;
+
     /**
      * Saves preferred and default locales.
      *
      * @param \SimpleXMLElement $xml
+     * @throws ConfigurationException
      */
     public function __construct(\SimpleXMLElement $xml)
     {
@@ -41,18 +42,19 @@ class Settings
             throw new ConfigurationException("Attribute 'method' is mandatory for 'internationalization' tag");
         }
         $detectionMethod = strtolower($detectionMethod);
-        if (!in_array($detectionMethod, array("header","request","session"))) {
+        if ($case = LocaleDetectionMethod::tryFrom($detectionMethod)) {
+            $this->detectionMethod = $case;
+        } else {
             throw new ConfigurationException("Invalid detection method: ".$detectionMethod);
         }
-        $this->detectionMethod = $detectionMethod;
     }
     
     /**
      * Gets localization method
      *
-     * @return string Can be: header, request, session
+     * @return LocaleDetectionMethod
      */
-    public function getLocalizationMethod(): string
+    public function getLocalizationMethod(): LocaleDetectionMethod
     {
         return $this->detectionMethod;
     }
