@@ -33,7 +33,7 @@ Since the logic of view rendering/compilation is a MVC API's concern, instead of
 - **[configuration](#configuration)**: setting up an XML file where API is configured for locale detection and translations storage
 - **[execution](#execution)**: creating a [Lucinda\Internationalization\Wrapper](https://github.com/aherne/php-internationalization-api/blob/master/src/Wrapper.php) instance based on above, to use in getting/setting translations by keyword
 
-API is fully PSR-4 compliant, only requiring PHP7.1+ interpreter and SimpleXML extension. To quickly see how it works, check:
+API is fully PSR-4 compliant, only requiring PHP 8.1+ interpreter and SimpleXML extension. To quickly see how it works, check:
 
 - **[installation](#installation)**: describes how to install API on your computer, in light of steps above
 - **[unit tests](#unit-tests)**: API has 100% Unit Test coverage, using [UnitTest API](https://github.com/aherne/unit-testing) instead of PHPUnit for greater flexibility
