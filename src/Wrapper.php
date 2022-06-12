@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\Internationalization;
 
 /**
@@ -7,13 +8,13 @@ namespace Lucinda\Internationalization;
 class Wrapper
 {
     private Settings $settings;
-    
+
     /**
      * Sets up Reader instance to use later on in automatic translation based on XML and client headers
      *
-     * @param \SimpleXMLElement $xml XML root containing 'internationalization' tag
-     * @param string[string] $requestParameters
-     * @param string[string] $requestHeaders
+     * @param  \SimpleXMLElement    $xml               XML root containing 'internationalization' tag
+     * @param  array<string,string> $requestParameters
+     * @param  array<string,string> $requestHeaders
      * @throws ConfigurationException If XML is improperly configured or session is not started
      */
     public function __construct(\SimpleXMLElement $xml, array $requestParameters, array $requestHeaders)
@@ -23,31 +24,65 @@ class Wrapper
         if (empty($xml)) {
             throw new ConfigurationException("Tag 'internationalization' missing");
         }
-        
+
         // identifies settings based on XML and sets preferred locale
         $settings = new Settings($xml);
-        $localeDetector = new LocaleDetector($requestParameters, $requestHeaders, $settings->getLocalizationMethod());
-        $preferredLocale = $localeDetector->getDetectedLocale();
-        $settings->setPreferredLocale($preferredLocale!==null?$preferredLocale:$settings->getDefaultLocale());
-        
-        // compiles settings
-        if (!file_exists($settings->getFolder().DIRECTORY_SEPARATOR.$settings->getPreferredLocale())) {
-            // if input locale is not supported, use default
-            if (!file_exists($settings->getFolder().DIRECTORY_SEPARATOR.$settings->getDefaultLocale())) {
-                throw new ConfigurationException("Translations not set for default locale: ".$settings->getDefaultLocale());
-            }
-            $settings->setPreferredLocale($settings->getDefaultLocale()); // overrides not supported preferred locale with default
+        if ($settings->getLocalizationMethod()==LocaleDetectionMethod::SESSION && session_id() == "") {
+            throw new ConfigurationException("Session must be already started!");
         }
-        
+
+        // sets preferred locale
+        $this->setPreferredLocale(
+            $settings,
+            $requestParameters,
+            $_SESSION,
+            $requestHeaders,
+        );
+
         // saves locale in session
         if ($settings->getLocalizationMethod() == LocaleDetectionMethod::SESSION) {
             $_SESSION[LocaleDetector::PARAMETER_NAME] = $settings->getPreferredLocale();
         }
-        
+
         // saves settings to be used by Writer
         $this->settings = $settings;
     }
-    
+
+    /**
+     * Sets preferred internationalization locale
+     *
+     * @param  Settings             $settings
+     * @param  array<string,string> $requestParameters
+     * @param  array<string,string> $sessionParameters
+     * @param  array<string,string> $requestHeaders
+     * @return void
+     * @throws ConfigurationException
+     */
+    private function setPreferredLocale(
+        Settings $settings,
+        array $requestParameters,
+        array $sessionParameters,
+        array $requestHeaders
+    ): void {
+        $localeDetector = new LocaleDetector(
+            $requestParameters,
+            $sessionParameters,
+            $requestHeaders,
+            $settings->getLocalizationMethod()
+        );
+        $preferredLocale = $localeDetector->getDetectedLocale();
+        $settings->setPreferredLocale($preferredLocale!==null ? $preferredLocale : $settings->getDefaultLocale());
+
+        // compiles settings
+        if (!file_exists($settings->getFolder().DIRECTORY_SEPARATOR.$settings->getPreferredLocale())) {
+            // if input locale is not supported, use default
+            if (!file_exists($settings->getFolder().DIRECTORY_SEPARATOR.$settings->getDefaultLocale())) {
+                throw new ConfigurationException("Translations not set for default locale");
+            }
+            $settings->setPreferredLocale($settings->getDefaultLocale()); // overrides not supported preferred locale with default
+        }
+    }
+
     /**
      * Gets translations reader instance
      *
@@ -57,11 +92,12 @@ class Wrapper
     {
         return new Reader($this->settings);
     }
-    
+
     /**
      * Gets translations writer instance
      *
      * @return Writer
+     * @throws TranslationInvalidException
      */
     public function getWriter(): Writer
     {

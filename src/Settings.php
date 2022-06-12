@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\Internationalization;
 
 /**
@@ -9,7 +10,7 @@ class Settings
     private string $domain = "messages";
     private string $folder = "locale";
     private string $extension = "json";
-    
+
     private string $preferredLocale;
     private string $defaultLocale;
     private LocaleDetectionMethod $detectionMethod;
@@ -17,7 +18,7 @@ class Settings
     /**
      * Saves preferred and default locales.
      *
-     * @param \SimpleXMLElement $xml
+     * @param  \SimpleXMLElement $xml
      * @throws ConfigurationException
      */
     public function __construct(\SimpleXMLElement $xml)
@@ -28,11 +29,11 @@ class Settings
         $this->setFolder($xml);
         $this->setExtension($xml);
     }
-    
+
     /**
      * Sets localization method based on "method" attribute of <internationalization> tag.
      *
-     * @param \SimpleXMLElement $xml Internationalization tag content.
+     * @param  \SimpleXMLElement $xml Internationalization tag content.
      * @throws ConfigurationException If XML is improperly configured.
      */
     private function setLocalizationMethod(\SimpleXMLElement $xml): void
@@ -48,7 +49,7 @@ class Settings
             throw new ConfigurationException("Invalid detection method: ".$detectionMethod);
         }
     }
-    
+
     /**
      * Gets localization method
      *
@@ -58,11 +59,11 @@ class Settings
     {
         return $this->detectionMethod;
     }
-    
+
     /**
      * Sets default locale based on "locale" attribute of <internationalization> tag.
      *
-     * @param \SimpleXMLElement $xml Internationalization tag content.
+     * @param  \SimpleXMLElement $xml Internationalization tag content.
      * @throws ConfigurationException If XML is improperly configured.
      */
     private function setDefaultLocale(\SimpleXMLElement $xml): void
@@ -73,7 +74,7 @@ class Settings
         }
         $this->defaultLocale = $defaultLocale;
     }
-    
+
     /**
      * Gets default locale to be used when translating
      *
@@ -83,7 +84,7 @@ class Settings
     {
         return $this->defaultLocale;
     }
-    
+
     /**
      * Sets domain based on "domain" attribute of <internationalization> tag.
      *
@@ -96,7 +97,7 @@ class Settings
             $this->domain = $domain;
         }
     }
-    
+
     /**
      * Gets name  of translation file (by default: messages)
      *
@@ -106,7 +107,7 @@ class Settings
     {
         return $this->domain;
     }
-    
+
     /**
      * Sets folder in which translations are located based on "folder" attribute of <internationalization> tag.
      *
@@ -119,7 +120,7 @@ class Settings
             $this->folder = $folder;
         }
     }
-    
+
     /**
      * Gets folder in which translations are located (by default: locale)
      *
@@ -129,7 +130,7 @@ class Settings
     {
         return $this->folder;
     }
-    
+
     /**
      * Sets extension of translation files based on "extension" attribute of <internationalization> tag.
      *
@@ -142,7 +143,7 @@ class Settings
             $this->extension = $extension;
         }
     }
-    
+
     /**
      * Gets extension of translation file (aka "domain")
      *
@@ -152,7 +153,7 @@ class Settings
     {
         return $this->extension;
     }
-    
+
     /**
      * Sets preferred locale to be used when translating
      *
@@ -162,7 +163,7 @@ class Settings
     {
         $this->preferredLocale = $locale;
     }
-    
+
     /**
      * Gets preferred locale to be used when translating
      *

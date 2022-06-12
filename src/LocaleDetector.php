@@ -1,4 +1,5 @@
 <?php
+
 namespace Lucinda\Internationalization;
 
 /**
@@ -8,61 +9,105 @@ namespace Lucinda\Internationalization;
  */
 class LocaleDetector
 {
-    const PARAMETER_NAME = "locale";
+    public const PARAMETER_NAME = "locale";
     private ?string $detectedLocale = null;
 
     /**
      * Determines method to detect locale then performs locale detection by matching XML with client request/headers
      *
-     * @param string[string] $requestParameters
-     * @param string[string] $requestHeaders
+     * @param array<string,string>  $requestParameters
+     * @param array<string,string>  $sessionParameters
+     * @param array<string,string>  $requestHeaders
      * @param LocaleDetectionMethod $detectionMethod
-     * @throws ConfigurationException
      */
-    public function __construct(array $requestParameters, array $requestHeaders, LocaleDetectionMethod $detectionMethod)
-    {
-        $this->setDetectedLocale($requestParameters, $requestHeaders, $detectionMethod);
+    public function __construct(
+        array $requestParameters,
+        array $sessionParameters,
+        array $requestHeaders,
+        LocaleDetectionMethod $detectionMethod
+    ) {
+        $this->setDetectedLocale($requestParameters, $sessionParameters, $requestHeaders, $detectionMethod);
     }
 
     /**
-     * Sets detected locale based on detection method, client request as well as <session> XML tag (if detection method is session)
+     * Sets detected locale based on detection method, client request as well as <session> XML tag (if detection
+     * method is session)
      *
-     * @param string[string] $requestParameters
-     * @param string[string] $requestHeaders
+     * @param array<string,string>  $requestParameters
+     * @param array<string,string>  $sessionParameters
+     * @param array<string,string>  $requestHeaders
      * @param LocaleDetectionMethod $detectionMethod
-     * @throws ConfigurationException
      */
-    private function setDetectedLocale(array $requestParameters, array $requestHeaders, LocaleDetectionMethod $detectionMethod): void
-    {
+    private function setDetectedLocale(
+        array $requestParameters,
+        array $sessionParameters,
+        array $requestHeaders,
+        LocaleDetectionMethod $detectionMethod
+    ): void {
         switch ($detectionMethod) {
-            case LocaleDetectionMethod::HEADER:
-                if (isset($requestHeaders["Accept-Language"])) {
-                    $matches = [];
-                    preg_match_all("/(([a-z]{2})\-([A-Z]{2}))/", $requestHeaders["Accept-Language"], $matches);
-                    if (!empty($matches[1])) {
-                        $this->detectedLocale = $matches[2][0]."_".$matches[3][0];
-                    }
-                }
-                break;
-            case LocaleDetectionMethod::REQUEST:
-                if (isset($requestParameters[self::PARAMETER_NAME])) {
-                    $this->detectedLocale = $requestParameters[self::PARAMETER_NAME];
-                }
-                break;
-            case LocaleDetectionMethod::SESSION:
-                if (session_id() == "") {
-                    throw new ConfigurationException("Session must be already started!");
-                }
-                if (isset($_SESSION[self::PARAMETER_NAME])) {
-                    $this->detectedLocale = $_SESSION[self::PARAMETER_NAME];
-                }
-                if (isset($requestParameters[self::PARAMETER_NAME])) {
-                    $this->detectedLocale = $requestParameters[self::PARAMETER_NAME];
-                }
-                break;
+        case LocaleDetectionMethod::HEADER:
+            $this->detectedLocale = $this->detectByHeaders($requestHeaders);
+            break;
+        case LocaleDetectionMethod::REQUEST:
+            $this->detectedLocale = $this->detectByRequestParameters($requestParameters);
+            break;
+        case LocaleDetectionMethod::SESSION:
+            $this->detectedLocale = $this->detectBySessionParameters($sessionParameters, $requestParameters);
+            break;
         }
     }
-    
+
+    /**
+     * Detects locale by Accept-Language HTTP request header
+     *
+     * @param  array<string,string> $requestHeaders
+     * @return string|null
+     */
+    private function detectByHeaders(array $requestHeaders): ?string
+    {
+        if (isset($requestHeaders["Accept-Language"])) {
+            $matches = [];
+            preg_match_all("/(([a-z]{2})\-([A-Z]{2}))/", $requestHeaders["Accept-Language"], $matches);
+            if (!empty($matches[1])) {
+                return $matches[2][0]."_".$matches[3][0];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Detects locale by value of GET request parameter "locale"
+     *
+     * @param  array<string,string> $requestParameters
+     * @return string|null
+     */
+    private function detectByRequestParameters(array $requestParameters): ?string
+    {
+        if (isset($requestParameters[self::PARAMETER_NAME])) {
+            return $requestParameters[self::PARAMETER_NAME];
+        }
+        return null;
+    }
+
+    /**
+     * Detects locale by value of SESSION & GET request parameter "locale"
+     *
+     * @param  array<string,string> $sessionParameters
+     * @param  array<string,string> $requestParameters
+     * @return string|null
+     */
+    private function detectBySessionParameters(array $sessionParameters, array $requestParameters): ?string
+    {
+        $detectedLocale = null;
+        if (isset($sessionParameters[self::PARAMETER_NAME])) {
+            $detectedLocale = $sessionParameters[self::PARAMETER_NAME];
+        }
+        if (isset($requestParameters[self::PARAMETER_NAME])) {
+            $detectedLocale = $requestParameters[self::PARAMETER_NAME];
+        }
+        return $detectedLocale;
+    }
+
     /**
      * Gets detected locale
      *
