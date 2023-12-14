@@ -11,10 +11,10 @@ require("DomainNotFoundException.php");
  */
 class Reader
 {
-    private static $settings;
-    private static $instance;
+    protected static $settings;
+    protected static $instance;
     
-    private $translations = array();
+    protected $translations = array();
     
     /**
      * Injects client-specific internationalization settings to use in finding translations later on.
@@ -46,7 +46,7 @@ class Reader
      * @throws DomainNotFoundException If no translation file was found
      * @throws TranslationInvalidException If translation file found is not convertible to JSON
      */
-    private function setTranslations($domain = null)
+    protected function setTranslations($domain = null)
     {
         $fileName = self::$settings->getFolder().DIRECTORY_SEPARATOR.self::$settings->getPreferredLocale().DIRECTORY_SEPARATOR.$domain.".".self::$settings->getExtension();
         if (!file_exists($fileName)) {
