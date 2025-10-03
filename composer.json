@@ -1,5 +1,5 @@
 {
-    "name": "lucinda/internationalization",
+    "name": "hlis/internationalization",
     "type": "library",
     "description": "Light weight i18n API performing internationalization via gettext and PO & MO files",
     "keywords": ["gettext","internationalization","localization"],
