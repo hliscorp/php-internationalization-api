@@ -1,8 +1,12 @@
 {
-    "name": "hlis/internationalization",
+    "name": "lucinda/internationalization",
     "type": "library",
     "description": "High-performance API performing internationalization and localization for PHP applications via JSON files",
-    "keywords": ["i18n","internationalization","localization"],
+    "keywords": [
+        "i18n",
+        "internationalization",
+        "localization"
+    ],
     "homepage": "https://github.com/aherne/php-internationalization-api",
     "license": "MIT",
     "require": {
@@ -10,19 +14,25 @@
         "ext-SimpleXML": "*"
     },
     "require-dev": {
-    	"hlis/unit-testing": "^2.0"
+        "lucinda/unit-testing": "^2.0"
     },
     "autoload": {
-    	"psr-4": {
-        	"Lucinda\\Internationalization\\": "src/",
-                "Test\\Lucinda\\Internationalization\\": "tests/"
-    	}
+        "psr-4": {
+            "Lucinda\\Internationalization\\": "src/",
+            "Test\\Lucinda\\Internationalization\\": "tests/"
+        }
     },
     "authors": [
         {
             "name": "Lucian Popescu",
             "email": "lucian.gabriel.popescu@gmail.com",
             "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/hliscorp/unit-testing"
         }
     ]
 }
