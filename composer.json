@@ -1,8 +1,12 @@
 {
-    "name": "hlis/internationalization",
+    "name": "lucinda/internationalization",
     "type": "library",
     "description": "Light weight i18n API performing internationalization via gettext and PO & MO files",
-    "keywords": ["gettext","internationalization","localization"],
+    "keywords": [
+        "gettext",
+        "internationalization",
+        "localization"
+    ],
     "homepage": "https://github.com/aherne/php-internationalization-api",
     "license": "MIT",
     "authors": [
@@ -12,7 +16,7 @@
             "role": "Developer"
         }
     ],
-	"require": {
-    	"ext-gettext": "*"
-  	}
+    "require": {
+        "ext-gettext": "*"
+    }
 }
